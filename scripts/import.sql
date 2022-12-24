@@ -1,8 +1,15 @@
-DECLARE @PATH VARCHAR(10000)
-SET @PATH = (SELECT @file)  
+-- SELECT @file
 
-LOAD DATA INFILE @PATH
-INTO TABLE Wallet
-LINES TERMINATED BY '\n'
-(address)
-SET address = SUBSTRING(@var, 1, 42);
+SET @out = CONCAT('LOAD DATA INFILE ''', @file, '''
+INTO TABLE Wallet 
+LINES TERMINATED BY ''\n'' 
+(address)');
+
+
+SELECT @out INTO OUTFILE '/scripts/outfile.sql';
+
+SOURCE outfile.sql;
+-- LOAD DATA INFILE @file
+-- INTO TABLE Wallet
+-- LINES TERMINATED BY '\n'
+-- (address)

@@ -3,7 +3,9 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:8.0.31
+    build:
+      context: ./
+      dockerfile: sql/Dockerfile
     container_name: eth-wallets
     restart: unless-stopped
     environment:
@@ -15,6 +17,8 @@ services:
     volumes:
       - db:/var/lib/mysql
       - ./src/sql/:/docker-entrypoint-initdb.d
+      - ./scripts:/scripts
+    command: --secure-file-priv=""
   nodejs:
     build:
       context: ./
