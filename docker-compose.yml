@@ -1,0 +1,40 @@
+# Use root/example as user/password credentials
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0.31
+    container_name: eth-wallets
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+    ports:
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+    env_file: ./.env
+    volumes:
+      - db:/var/lib/mysql
+      - ./src/sql/:/docker-entrypoint-initdb.d
+  nodejs:
+    build:
+      context: ./
+      dockerfile: nodejs/Dockerfile
+    depends_on:
+      - db
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    environment:
+      - DB_HOST=db
+      - DB_USER=$MYSQLDB_USER
+      - DB_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - DB_NAME=$MYSQLDB_DATABASE
+      - DB_PORT=$MYSQLDB_DOCKER_PORT
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./src/nodejs:/ethWallets
+volumes:
+  db:
+  

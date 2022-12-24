@@ -1,0 +1,7 @@
+{
+    "name": "ethWallets",
+    "dockerComposeFile": ["../docker-compose.yml"],
+    "service": "nodejs",
+    "workspaceFolder": "/ethWallets",
+    "shutdownAction": "stopCompose"
+}

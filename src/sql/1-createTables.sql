@@ -1,0 +1,3 @@
+CREATE TABLE Wallet(
+    address VARCHAR(42) PRIMARY KEY
+)
