@@ -17,7 +17,6 @@ services:
     volumes:
       - db:/var/lib/mysql
       - ./src/sql/:/docker-entrypoint-initdb.d
-      - ./scripts:/scripts
     command: --secure-file-priv=""
   nodejs:
     build:
